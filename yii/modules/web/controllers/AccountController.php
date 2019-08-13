@@ -1,8 +1,12 @@
 <?php
 namespace app\modules\web\controllers;
 use yii\base\Controller;
+use app\modules\web\controllers\common\BaseController;
+use Yii;
 
-class AccountController extends Controller{
+use app\models\User;
+
+class AccountController extends BaseController{
 
     //指定公共代码块 main
     public function __construct($id, $module, $config = []){
@@ -12,7 +16,13 @@ class AccountController extends Controller{
 
     //帐户首页
     public function actionIndex(){
-        return $this->render("index");
+        //查询用户表的数据并展示
+        //以 uid 倒序的方式进行排序
+        $userList = User::find()->orderBy(['uid' => 'SORT_DESC'])->all();
+
+        return $this->render("index",[
+            'userList' => $userList
+        ]);
     }
 
     // 帐户的添加或编辑
