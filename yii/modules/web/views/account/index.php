@@ -57,42 +57,26 @@ use app\common\services\UrlService;
                 </tr>
             </thead>
             <tbody>
+            <?php foreach( $userList as $item ):?>
                 <tr>
-                    <td>13</td>
-                    <td>郭威</td>
-                    <td>11012345678</td>
-                    <td>apanly@163.com</td>
+                    <td><?=$item['uid'];?></td>
+                    <td><?=$item['nickname'];?></td>
+                    <td><?=$item['mobile'];?></td>
+                    <td><?=$item['email'];?></td>
                     <td>
-                        <a href="/web/account/info?id=13">
+                        <a href="<?=UrlService::buildWebUrl("account/info",[ 'id' => $item['uid'] ] );?>">
                             <i class="fa fa-eye fa-lg"></i>
                         </a>
-                        <a class="m-l" href="/web/account/set?id=13">
+                        <a class="m-l" href="<?=UrlService::buildWebUrl("/account/set",['id' => $item['uid']]);?>">
                             <i class="fa fa-edit fa-lg"></i>
                         </a>
 
-                        <a class="m-l remove" href="javascript:void(0);" data="13">
+                        <a class="m-l remove" href="javascript:void(0);" data="<?=$item['uid'];?>">
                             <i class="fa fa-trash fa-lg"></i>
                         </a>
                     </td>
                 </tr>
-                <tr>
-                    <td>12</td>
-                    <td>编程浪子郭大爷</td>
-                    <td>11012345679</td>
-                    <td>apanly@126.com</td>
-                    <td>
-                        <a href="/web/account/info?id=12">
-                            <i class="fa fa-eye fa-lg"></i>
-                        </a>
-                        <a class="m-l" href="/web/account/set?id=12">
-                            <i class="fa fa-edit fa-lg"></i>
-                        </a>
-
-                        <a class="m-l remove" href="javascript:void(0);" data="12">
-                            <i class="fa fa-trash fa-lg"></i>
-                        </a>
-                    </td>
-                </tr>
+                <?php endforeach;?>
             </tbody>
         </table>
         <div class="row">
