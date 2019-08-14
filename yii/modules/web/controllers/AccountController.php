@@ -16,9 +16,41 @@ class AccountController extends BaseController{
 
     //帐户首页
     public function actionIndex(){
-        //查询用户表的数据并展示
-        //以 uid 倒序的方式进行排序
-        $userList = User::find()->orderBy(['uid' => 'SORT_DESC'])->all();
+       
+        /**
+         * 以 uid 倒序的方式进行排序
+         * 
+         * 获取从前端传回的值
+         * mix_kw / $status 混合搜索,使用 LIKE 匹配关键字，OR =》 查询条件
+         * 重置查询方法  $search_ops
+         * 
+         * 查询用户表的数据并展示
+         */
+        
+
+        $status = intval($this->get("status",ConstantMapService::$status_default));
+        $mix_kw = trim($this->get("mix_kw","")); 
+
+        $search_ops = User::find();
+
+        /**
+         * mohu search
+         */
+        if($status > ConstantMapService::$status_default){
+            //search
+            $search_ops->andWhere(['status' => $status]);
+        }
+
+        if($mix_kw){
+            //or search => nickname or mobile
+            $where_nickname = [ 'LIKE','nickname','%'.$mix_kw.'%', false ];
+            $where_mobile = [ 'LIKE','mobile','%'.$mix_kw.'%', false ];
+
+            //search
+            $search_ops->andWhere([ 'OR',$where_nickname,$where_mobile ]);
+        }
+
+        $userList = $search_ops->orderBy(['uid' => 'SORT_DESC'])->all();
 
         return $this->render("index",[
             'userList' => $userList,

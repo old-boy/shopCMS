@@ -1,6 +1,11 @@
 <?php
 use app\common\services\UrlService;
-use \app\common\services\ConstantMapService;
+use app\common\services\ConstantMapService;
+use app\common\services\StaticService;
+use app\assets\WebAsset;
+
+//加载 js,依赖 className，意思是与表单交互需要用到表单的 name 属性
+StaticService::includeAppJsStatic( "/js/web/account/search.js", WebAsset::className())
 ?>
 
 <div class="row  border-bottom">
