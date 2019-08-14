@@ -1,6 +1,6 @@
 <?php
-
 use app\common\services\UrlService;
+use \app\common\services\ConstantMapService;
 ?>
 
 <div class="row  border-bottom">
@@ -20,9 +20,10 @@ use app\common\services\UrlService;
             <div class="row m-t p-w-m">
                 <div class="form-group">
                     <select name="status" class="form-control inline">
-                        <option value="-1">请选择状态</option>
-                        <option value="1">正常</option>
-                        <option value="0">已删除</option>
+                        <option value="<?=ConstantMapService::$status_default;?>">请选择状态</option>
+                        <?php foreach( $status_mapping as $_status => $_title ):?>
+                            <option value="<?=$_status;?>" ><?=$_title;?></option>
+                        <?php endforeach;?>
                     </select>
                 </div>
                 <div class="form-group">
@@ -70,7 +71,6 @@ use app\common\services\UrlService;
                         <a class="m-l" href="<?=UrlService::buildWebUrl("/account/set",['id' => $item['uid']]);?>">
                             <i class="fa fa-edit fa-lg"></i>
                         </a>
-
                         <a class="m-l remove" href="javascript:void(0);" data="<?=$item['uid'];?>">
                             <i class="fa fa-trash fa-lg"></i>
                         </a>

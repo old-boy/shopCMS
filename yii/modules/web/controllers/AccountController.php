@@ -1,7 +1,7 @@
 <?php
 namespace app\modules\web\controllers;
-use yii\base\Controller;
 use app\modules\web\controllers\common\BaseController;
+use app\common\services\ConstantMapService;
 use Yii;
 
 use app\models\User;
@@ -21,7 +21,8 @@ class AccountController extends BaseController{
         $userList = User::find()->orderBy(['uid' => 'SORT_DESC'])->all();
 
         return $this->render("index",[
-            'userList' => $userList
+            'userList' => $userList,
+            'status_mapping' => ConstantMapService::$status_mapping
         ]);
     }
 
